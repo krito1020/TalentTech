@@ -1,0 +1,8 @@
+*.ipynb_checkpoints
+/*.ipynb_checkpoints
+._pycache_
+/*.zip
+/*.csv
+/*.pkl
+/*.xlsx
+/*.temp
