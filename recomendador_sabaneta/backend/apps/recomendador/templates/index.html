@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="consulta" placeholder="¿Qué estás buscando?">
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Enlace al registro -->
+<a href="{% url 'registro' %}">
+    <button>Registrar un comercio</button>
+</a>
+
+{% if recomendaciones %}
+    <h2>Recomendaciones:</h2>
+    <ul>
+    {% for r in recomendaciones %}
+        <li><b>{{ r.NOMBRE }}</b> - {{ r.ARTICULOS }} - {{ r.DIRECCIÓN }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}
