@@ -14,8 +14,8 @@ class RecomendadorEmpresas:
         self.vectorizador = TfidfVectorizer(stop_words=None)
         self.tfidf = self.vectorizador.fit_transform(self.df['ARTICULOS'])
 
-    def recomendar(self, texto_usuario, top_n=5):
+    def recomendar(self, texto_usuario, top_n=5, min_similitud=0.2):
         consulta = self.vectorizador.transform([texto_usuario])
         similitudes = cosine_similarity(consulta, self.tfidf).flatten()
-        indices = similitudes.argsort()[::-1][:top_n]
+        indices = [i for i in similitudes.argsort()[::-1] if similitudes[i] >= min_similitud][:top_n]
         return self.df.iloc[indices]

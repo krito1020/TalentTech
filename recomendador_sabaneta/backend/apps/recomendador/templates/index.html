@@ -16,8 +16,26 @@
     <h2>Recomendaciones:</h2>
     <ul>
     {% for r in recomendaciones %}
-        <li><b>{{ r.NOMBRE }}</b> - {{ r.ARTICULOS }} - {{ r.DIRECCIÓN }}</li>
+        <li>
+            <b>{{ r.NOMBRE }}</b> - {{ r.ARTICULOS }} - 
+            <a href="javascript:void(0);" onclick="mostrarMapa('{{ r.DIRECCIÓN|urlencode }}')">
+                {{ r.DIRECCIÓN }}
+            </a>
+        </li>
     {% endfor %}
     </ul>
 {% endif %}
+
+<!-- Mapa embebido -->
+<div id="mapa" style="margin-top: 20px;"></div>
+
+<script>
+function mostrarMapa(direccion) {
+    const mapa = document.getElementById('mapa');
+    const url = `https://www.google.com/maps?q=${direccion}&output=embed`;
+    mapa.innerHTML = `<iframe width="100%" height="400" frameborder="0" style="border:0"
+        src="${url}" allowfullscreen></iframe>`;
+}
+</script>
+
 {% endblock %}

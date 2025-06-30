@@ -26,7 +26,8 @@ Pillow (para carga de imágenes)
 ### 1. descomprime el proyecto
 
 ```bash
-cd ruta/del/proyecto
+cd ruta/del/proyecto 
+Para mi pc: cd 1\Desktop\Carolina Ospina\TalentTech\recomendador_sabaneta
 
 2. Clona el repositorio
 
