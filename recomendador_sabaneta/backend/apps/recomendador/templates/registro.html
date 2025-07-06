@@ -1,15 +1,59 @@
 {% extends 'base.html' %}
+
 {% block title %}Registrar Comercio{% endblock %}
+
 {% block content %}
-<form method="post" enctype="multipart/form-data">
+
+<h2>Registrar nuevo comercio</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div style="
+            padding: 12px; margin-bottom: 16px; border-radius: 6px;
+            {% if message.tags == 'success' %}
+                background-color: #e0ffe0; color: #2d662d; border: 1px solid #88cc88;
+            {% elif message.tags == 'error' %}
+                background-color: #ffe0e0; color: #662d2d; border: 1px solid #cc8888;
+            {% endif %}
+        ">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+    {% for field in form %}
+        <div style="margin-bottom: 12px;">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+            {{ field }}
+            {% if field.errors %}
+                <div style="color: red; font-size: 14px;">
+                    {{ field.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ field.id_for_label }}").style.border = "1px solid red";
+                    document.getElementById("{{ field.id_for_label }}").style.backgroundColor = "#ffecec";
+                </script>
+            {% endif %}
+        </div>
+    {% endfor %}
     <button type="submit">Registrar</button>
 </form>
-<br>
 
-<!-- Botón para volver -->
-<a href="{% url 'index' %}">
-    <button>Volver al recomendador</button>
-</a>
+<br>
+<a href="{% url 'recomendador_home' %}">← Volver al recomendador</a>
+<!-- Script para redirigir automáticamente si fue exitoso -->
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script>
+                setTimeout(function () {
+                    window.location.href = "{% url 'recomendador_home' %}";
+                }, 5000);
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% endblock %}

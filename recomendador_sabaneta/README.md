@@ -26,7 +26,8 @@ Pillow (para carga de imágenes)
 ### 1. descomprime el proyecto
 
 ```bash
-cd ruta/del/proyecto
+cd ruta/del/proyecto 
+Para mi pc: cd 1\Desktop\Carolina Ospina\TalentTech\recomendador_sabaneta
 
 2. Clona el repositorio
 
@@ -45,13 +46,14 @@ cd recomendador-sabaneta
 3. Crea y activa un entorno virtual
 bash
 python -m venv venv
-venv\\Scripts\\activate   # Windows
-source venv/bin/activate  # macOS/Linux
+venv\\Scripts\\activate
 
 4. Instala las dependencias
 bash
 pip install -r requirements.txt
 #**Nota:** Este proyecto utiliza `ImageField`, por lo tanto es necesario instalar `Pillow`: Pero esta dentro de los requerimientos
+Para revisar si quedo bien instalado escribir
+pip freeze
 
 ⚙️ Estructura del proyecto
 csharp
