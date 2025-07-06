@@ -1,21 +1,38 @@
-{% extends 'base.html' %}
-{% block title %}Inicio{% endblock %}
-{% block content %}
-<form method="post">
-    {% csrf_token %}
-    <input type="text" name="consulta" placeholder="¿Qué estás buscando?">
-    <button type="submit">Buscar</button>
+{% extends 'base.html' %} # Extiende de base.html
+
+{% load static %}  # Carga el tag static para usar archivos estáticos
+{% block title %}Inicio{% endblock %} # Define el título de la página
+
+{% block styles %} # Define los estilos específicos para esta página
+{% block content %} # Contenido principal de la página
+
+# banner de bienvenida
+<div style="text-align: center; margin-bottom: 10px;"> # Imagen de banner
+    <img src="{% static 'img/banner_sabaneta.png' %}" # Ruta de la imagen del banner
+         alt="¿Qué tienes para mí Sabaneta?" # Descripción de la imagen
+         style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;" /> # Imagen responsiva
+</div>
+
+<div style="text-align: center; font-size: 1.2em; font-style: italic; margin-bottom: 30px; color: #1A3A57;"> # Mensaje de bienvenida
+    "Descubre lo que Sabaneta tiene para ti. Apoya lo local, vive lo tuyo."
+</div>
+
+# Formulario de búsqueda
+<form method="post"> # Formulario de búsqueda
+    {% csrf_token %} 
+    <input type="text" name="consulta" placeholder="¿Qué estás buscando?"> # Campo de entrada para la búsqueda
+    <button type="submit">Buscar</button> # Botón de búsqueda
 </form>
 
-<!-- Enlace al registro -->
+# Enlace al registro
 <a href="{% url 'registro' %}">
-    <button>Registrar un comercio</button>
+    <button>Registrar un comercio</button> # Botón para registrar un comercio
 </a>
 
-{% if recomendaciones %}
+{% if recomendaciones %} # Si hay recomendaciones, muestra la lista
     <h2>Recomendaciones:</h2>
     <ul>
-    {% for r in recomendaciones %}
+    {% for r in recomendaciones %} # Itera sobre las recomendaciones
         <li>
             <b>{{ r.NOMBRE }}</b> - {{ r.ARTICULOS }} - 
             <a href="javascript:void(0);" onclick="mostrarMapa('{{ r.DIRECCIÓN|urlencode }}')">
@@ -26,11 +43,11 @@
     </ul>
 {% endif %}
 
-<!-- Mapa embebido -->
-<div id="mapa" style="margin-top: 20px;"></div>
+# Mapa embebido
+<div id="mapa" style="margin-top: 20px;"></div> # Contenedor para el mapa
 
 <script>
-function mostrarMapa(direccion) {
+function mostrarMapa(direccion) { # Función para mostrar el mapa
     const mapa = document.getElementById('mapa');
     const url = `https://www.google.com/maps?q=${direccion}&output=embed`;
     mapa.innerHTML = `<iframe width="100%" height="400" frameborder="0" style="border:0"

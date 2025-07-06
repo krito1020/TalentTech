@@ -6,11 +6,11 @@ from django.contrib import messages
 import os
 import openpyxl
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PATH_EXCEL = os.path.join(BASE_DIR, '../../data/base_actualizada.xlsx')
-recomendador = RecomendadorEmpresas(PATH_EXCEL)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Ruta base
+PATH_EXCEL = os.path.join(BASE_DIR, '../../data/base_actualizada.xlsx') # Ruta al archivo Excel
+recomendador = RecomendadorEmpresas(PATH_EXCEL) # Inicializar el recomendador
 
-def index(request):
+def index(request): # Vista principal
     recomendaciones = None
     if request.method == 'POST':
         consulta = request.POST.get('consulta')
@@ -21,11 +21,12 @@ def index(request):
 
     return render(request, 'index.html', {'recomendaciones': recomendaciones})
 
-def registrar_comercio(request):
-    if request.method == 'POST':
-        form = ComercioForm(request.POST, request.FILES)
-        if form.is_valid(): 
-            comercio = form.save()
+def registrar_comercio(request): # Vista para registrar un comercio
+
+    if request.method == 'POST': # Manejo del formulario
+        form = ComercioForm(request.POST, request.FILES) # Instancia del formulario
+        if form.is_valid(): # Validación del formulario
+            comercio = form.save() # Guardar el comercio en la base de datos
 
             # Ruta al archivo Excel
             path_excel = os.path.join(BASE_DIR, '../../data/base_actualizada.xlsx')
