@@ -7,3 +7,6 @@
 /*.xlsx
 /*.temp
 *.zip
+*.pyc
+*.pyo
+*.pyd
