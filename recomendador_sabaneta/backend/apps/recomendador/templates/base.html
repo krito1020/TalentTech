@@ -2,9 +2,10 @@
 <html>
 <head>
     {% load static %}
-    <title>Recomendador Sabaneta</title>
+    <title>Recomendador Sabaneta</title> <!-- Título de la página -->
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
     <style>
+        <!-- Estilo para los mensajes -->
         .messages {
             margin-top: 10px;
             padding: 10px;
@@ -19,7 +20,10 @@
     <h1>{% block title %}Recomendador Sabaneta{% endblock %}</h1>
 
     {% if messages %}
-        <ul class="messages">
+        <ul class="messages">   <!-- Lista para mostrar mensajes -->
+            {% if messages|length == 1 %}
+                <li class="message">{{ messages.0 }}</li> <!-- Si hay un solo mensaje, lo muestra directamente -->
+            {% endif %}
             {% for message in messages %}
                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}

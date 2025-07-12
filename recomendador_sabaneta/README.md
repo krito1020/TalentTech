@@ -50,6 +50,7 @@ venv\\Scripts\\activate
 
 4. Instala las dependencias
 bash
+cd..
 pip install -r requirements.txt
 #**Nota:** Este proyecto utiliza `ImageField`, por lo tanto es necesario instalar `Pillow`: Pero esta dentro de los requerimientos
 Para revisar si quedo bien instalado escribir

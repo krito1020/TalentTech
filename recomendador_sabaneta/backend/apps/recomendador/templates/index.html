@@ -1,38 +1,43 @@
-{% extends 'base.html' %} # Extiende de base.html
+{% extends 'base.html' %}
 
-{% load static %}  # Carga el tag static para usar archivos estáticos
-{% block title %}Inicio{% endblock %} # Define el título de la página
+{% load static %}
+{% block title %}Inicio{% endblock %}
 
-{% block styles %} # Define los estilos específicos para esta página
-{% block content %} # Contenido principal de la página
+{% block styles %}
+<!-- Si necesitas estilos personalizados, agrégalos aquí -->
+{% endblock %}
 
-# banner de bienvenida
-<div style="text-align: center; margin-bottom: 10px;"> # Imagen de banner
-    <img src="{% static 'img/banner_sabaneta.png' %}" # Ruta de la imagen del banner
-         alt="¿Qué tienes para mí Sabaneta?" # Descripción de la imagen
-         style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;" /> # Imagen responsiva
+{% block content %}
+
+<!-- Banner de bienvenida -->
+<div style="text-align: center; margin-bottom: 10px;">
+    <img src="{% static 'img/banner_recomendador.png' %}"
+         alt="¿Qué tienes para mí Sabaneta?"
+         style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;" />
 </div>
 
-<div style="text-align: center; font-size: 1.2em; font-style: italic; margin-bottom: 30px; color: #1A3A57;"> # Mensaje de bienvenida
+<!-- Frase de bienvenida -->
+<div style="text-align: center; font-size: 1.2em; font-style: italic; margin-bottom: 30px; color: #1A3A57;">
     "Descubre lo que Sabaneta tiene para ti. Apoya lo local, vive lo tuyo."
 </div>
 
-# Formulario de búsqueda
-<form method="post"> # Formulario de búsqueda
+<!-- Formulario de búsqueda -->
+<form method="post">
     {% csrf_token %} 
-    <input type="text" name="consulta" placeholder="¿Qué estás buscando?"> # Campo de entrada para la búsqueda
-    <button type="submit">Buscar</button> # Botón de búsqueda
+    <input type="text" name="consulta" placeholder="¿Qué estás buscando?">
+    <button type="submit">Buscar</button>
 </form>
 
-# Enlace al registro
+<!-- Botón de registro -->
 <a href="{% url 'registro' %}">
-    <button>Registrar un comercio</button> # Botón para registrar un comercio
+    <button>Registrar un comercio</button>
 </a>
 
-{% if recomendaciones %} # Si hay recomendaciones, muestra la lista
+<!-- Recomendaciones -->
+{% if recomendaciones %}
     <h2>Recomendaciones:</h2>
     <ul>
-    {% for r in recomendaciones %} # Itera sobre las recomendaciones
+    {% for r in recomendaciones %}
         <li>
             <b>{{ r.NOMBRE }}</b> - {{ r.ARTICULOS }} - 
             <a href="javascript:void(0);" onclick="mostrarMapa('{{ r.DIRECCIÓN|urlencode }}')">
@@ -43,11 +48,11 @@
     </ul>
 {% endif %}
 
-# Mapa embebido
-<div id="mapa" style="margin-top: 20px;"></div> # Contenedor para el mapa
+<!-- Mapa embebido -->
+<div id="mapa" style="margin-top: 20px;"></div>
 
 <script>
-function mostrarMapa(direccion) { # Función para mostrar el mapa
+function mostrarMapa(direccion) {
     const mapa = document.getElementById('mapa');
     const url = `https://www.google.com/maps?q=${direccion}&output=embed`;
     mapa.innerHTML = `<iframe width="100%" height="400" frameborder="0" style="border:0"
