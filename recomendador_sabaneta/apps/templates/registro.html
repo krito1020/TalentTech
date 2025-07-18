@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Comercio{% endblock %}
+
+{% block styles %}
+<style>
+:root {
+    --primary: #1A3A57;
+    --accent: #007BFF;
+    --accent-hover: #0056b3;
+    --error-bg: #fcebea;
+    --error-border: #e3342f;
+    --success-bg: #e6ffed;
+    --success-border: #38c172;
+    --font: 'Segoe UI', Roboto, sans-serif;
+    --input-bg: #f8f9fa;
+    --input-border: #ced4da;
+    --border-radius: 6px;
+    --transition: 0.3s ease;
+}
+
+body {
+    font-family: var(--font);
+    background-color: #f2f4f8;
+    color: var(--primary);
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+form {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 1.6rem;
+    position: relative;
+}
+
+label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+/* Input base */
+input[type="text"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+    font-family: inherit;
+}
+
+input[type="file"] {
+    padding: 0.5rem 0.75rem;
+}
+
+/* Placeholder */
+input::placeholder,
+textarea::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Focus */
+input:focus,
+select:focus,
+textarea:focus {
+    background-color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    outline: none;
+}
+
+/* Error */
+input.error,
+select.error,
+textarea.error {
+    border-color: var(--error-border);
+    background-color: var(--error-bg);
+}
+
+input.error::placeholder,
+textarea.error::placeholder {
+    color: #cc1f1a;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: var(--error-border);
+    background-color: var(--error-bg);
+    border: 1px solid var(--error-border);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    margin-top: 0.4rem;
+}
+
+/* Alertas */
+.alert {
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.alert.success {
+    background-color: var(--success-bg);
+    border: 1px solid var(--success-border);
+    color: #1b5e20;
+}
+
+.alert.error {
+    background-color: var(--error-bg);
+    border: 1px solid var(--error-border);
+    color: #721c24;
+}
+
+/* Botón */
+button {
+    display: inline-block;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color var(--transition), box-shadow var(--transition);
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.25);
+}
+
+/* Link volver */
+.volver-link {
+    display: block;
+    text-align: center;
+    margin-top: 2rem;
+    font-weight: 500;
+    color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.volver-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    form {
+        padding: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Registrar nuevo comercio</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <div class="error-message">
+                    {{ field.errors|striptags }}
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var campo = document.getElementById("{{ field.id_for_label }}");
+                        if (campo) {
+                            campo.style.border = "1px solid var(--error-border)";
+                            campo.style.backgroundColor = "var(--error-bg)";
+                        }
+                    });
+                </script>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit">Registrar</button>
+</form>
+
+<a class="volver-link" href="{% url 'recomendador_home' %}">← Volver al recomendador</a>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <script>
+                setTimeout(function () {
+                    window.location.href = "{% url 'recomendador_home' %}";
+                }, 4000);
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
