@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Inicio{% endblock %}
+
+{% block styles %}
+<!-- Si necesitas estilos personalizados, agrégalos aquí -->
+{% endblock %}
+
+{% block content %}
+
+<!-- Banner de bienvenida -->
+<div style="text-align: center; margin-bottom: 10px;">
+    <img src="{% static 'img/banner_recomendador.png' %}"
+         alt="¿Qué tienes para mí Sabaneta?"
+         style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;" />
+</div>
+
+<!-- Frase de bienvenida -->
+<div style="text-align: center; font-size: 1.2em; font-style: italic; margin-bottom: 30px; color: #1A3A57;">
+    "Descubre lo que Sabaneta tiene para ti. Apoya lo local, vive lo tuyo."
+</div>
+
+<!-- Formulario de búsqueda -->
+<form method="post">
+    {% csrf_token %} 
+    <input type="text" name="consulta" placeholder="¿Qué estás buscando?">
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Botón de registro -->
+<a href="{% url 'registro' %}">
+    <button>Registrar un comercio</button>
+</a>
+
+<!-- Recomendaciones -->
+{% if recomendaciones %}
+    <h2>Recomendaciones:</h2>
+    <ul>
+    {% for r in recomendaciones %}
+        <li>
+            <b>{{ r.NOMBRE }}</b> - {{ r.ARTICULOS }} - 
+            <a href="javascript:void(0);" onclick="mostrarMapa('{{ r.DIRECCIÓN|urlencode }}')">
+                {{ r.DIRECCIÓN }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<!-- Mapa embebido -->
+<div id="mapa" style="margin-top: 20px;"></div>
+
+<script>
+function mostrarMapa(direccion) {
+    const mapa = document.getElementById('mapa');
+    const url = `https://www.google.com/maps?q=${direccion}&output=embed`;
+    mapa.innerHTML = `<iframe width="100%" height="400" frameborder="0" style="border:0"
+        src="${url}" allowfullscreen></iframe>`;
+}
+</script>
+
+{% endblock %}
